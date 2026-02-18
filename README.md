@@ -1,113 +1,138 @@
-# Bias-Aware and Explainable Deep Learning Model for Early Detection of Alzheimer’s Disease using MRI Scans
+# Bias-Aware & Explainable AI for Early Detection of Alzheimer’s Disease
 
-## Overview
+ A deep learning framework for early-stage Alzheimer’s detection using MRI scans — focused on **accuracy, fairness, and interpretability**.
 
-Alzheimer’s disease (AD) is a progressive neurodegenerative disorder affecting millions worldwide. Early diagnosis is critical, yet challenging due to subtle structural brain changes in initial stages.
-
-This project presents a **bias-aware, explainable deep learning framework** for multi-class classification of Alzheimer’s disease using MRI scans. The system integrates:
-
-- DCGAN-based class balancing
-- Transfer Learning (DenseNet121 & MobileNetV2)
-- Explainable AI (Grad-CAM + SHAP)
-- Bias Gap Index (BGI) fairness evaluation
-
-The goal is to build a model that is not only **accurate**, but also **interpretable and equitable** for responsible medical AI deployment.
+**Live Website:**  
+https://anshika-gupta9.github.io/alzheimers-bias-aware-ai/
 
 ---
 
-## Key Objectives
+## Project Overview
 
-- Improve early-stage Alzheimer’s detection
-- Address class imbalance using synthetic MRI generation
-- Provide transparent model explanations
-- Evaluate and minimize demographic bias
-- Develop a clinically meaningful AI pipeline
+Alzheimer’s Disease (AD) affects over **55 million people globally**, accounting for nearly **70% of dementia cases**. Early detection is critical — but subtle brain changes are difficult to detect manually.
+
+This project builds a **bias-aware and explainable deep learning system** that:
+
+- Classifies MRI scans into 4 Alzheimer’s stages  
+- Addresses class imbalance using DCGAN  
+- Integrates Explainable AI (Grad-CAM + SHAP)  
+- Evaluates fairness using Bias Gap Index (BGI)  
+
+The goal is not just performance — but **responsible medical AI**.
+
+---
+
+## System Architecture
+
+DCGAN → Transfer Learning (DenseNet121) → Custom Classifier → Explainable AI → Bias Evaluation
 
 ---
 
 ## Dataset
 
-- 35,840 MRI images
-- 4 diagnostic categories:
-  - Non-Demented
-  - Very Mild Demented
-  - Mild Demented
-  - Moderate Demented
+- **33,984 MRI brain scans**
+- 4 Classes:
+  - Non-Demented  
+  - Very Mild Demented  
+  - Mild Demented  
+  - Moderate Demented  
+- Image Size: 224×224  
+- Train/Validation/Test Split: 64% / 16% / 20%
 
-### Preprocessing:
-- Resize: 224 × 224
-- Pixel normalization
-- Data augmentation (rotation, zoom, flip, shift)
-- Stratified train/validation/test split
-
----
-
-## Methodology
-
-### 1️⃣ DCGAN for Class Balancing
-A Deep Convolutional GAN was trained to generate synthetic MRI scans for underrepresented classes, improving minority class detection and reducing bias caused by class imbalance.
-
-### 2️⃣ Transfer Learning
-Two pre-trained CNN architectures were fine-tuned:
-
-- **DenseNet121**  
-- **MobileNetV2**
-
-A custom classification head was added to adapt models to 4-class Alzheimer’s detection.
-
-### 3️⃣ Explainable AI
-
-To improve transparency and clinical trust:
-
-- **Grad-CAM** for region-level heatmap visualization  
-- **SHAP** for pixel-level feature attribution  
-
-These techniques highlight brain regions influencing predictions.
-
-### 4️⃣ Fairness Evaluation
-
-Bias Gap Index (BGI) was computed across:
-- Age groups
-- Gender groups
-
-Lower BGI values indicate equitable performance across demographics.
+### ⚖ Class Imbalance Handling
+- DCGAN architecture implemented  
+- Class-weighted training  
+- Synthetic data generation (demonstrated)  
 
 ---
 
-## Experimental Results
+## Models Used
 
-| Model        | Accuracy | Age BGI | Gender BGI |
-|-------------|----------|---------|------------|
-| DenseNet121 | 92.34%   | 0.0185  | 0.0069     |
-| MobileNetV2 | 90.87%   | 0.0203  | 0.0087     |
+### DenseNet121 (Primary Model)
+- Transfer learning from ImageNet  
+- Custom classification head  
+- Dropout (0.5, 0.3)  
+- Batch Normalization  
+- Softmax (4 classes)  
 
-### Key Observations:
-- DenseNet121 achieved highest performance.
-- Minimal bias observed across demographic groups.
-- Most misclassifications occur between adjacent severity stages (Very Mild ↔ Mild).
-
----
-
-## Explainability Insights
-
-- Grad-CAM highlighted hippocampus and temporal lobe regions.
-- SHAP provided pixel-wise contribution maps.
-- Model attention aligned with known Alzheimer’s pathology.
-
-This strengthens clinical reliability and interpretability.
+### MobileNetV2 (Comparison Model)
+- Lightweight architecture  
+- Efficient for edge deployment  
 
 ---
 
-## Clinical Relevance
+## Results
 
-This framework prioritizes:
+| Model        | Accuracy | Precision | Recall | F1-Score |
+|-------------|----------|-----------|--------|----------|
+| DenseNet121 | 80.55%   | 91.56%    | 80.55% | 91.89%   |
+| MobileNetV2 | 90.87%   | 90.12%    | 90.87% | 90.45%   |
 
-- Early detection
-- Fair performance
-- Transparent decision-making
-- Responsible AI deployment
+✔ DenseNet121 demonstrated stable convergence  
+✔ Improved minority class detection  
+✔ Minimal overfitting  
 
-The integration of performance, fairness, and explainability makes this approach suitable for real-world medical systems.
+---
+
+## Explainable AI Integration
+
+### Grad-CAM
+- Visual heatmaps  
+- Highlights hippocampus & temporal lobe  
+- Supports clinical interpretability  
+
+### SHAP
+- Pixel-level attribution  
+- Game-theoretic Shapley values  
+- Confirms medically relevant feature focus  
+
+---
+
+## Fairness & Bias Evaluation
+
+To ensure ethical deployment:
+
+- Synthetic demographic metadata generated  
+- Bias Gap Index (BGI) computed  
+
+### Results:
+- **Age BGI:** 0.58%  
+- **Gender BGI:** 0.75%  
+
+➡ Demonstrates minimal algorithmic bias  
+➡ Equitable performance across demographic groups  
+
+---
+
+## Tech Stack
+
+- Python 3.12  
+- TensorFlow 2.19  
+- Keras  
+- SHAP  
+- Grad-CAM  
+- Google Colab (NVIDIA Tesla T4 GPU)  
+
+---
+
+## Clinical Impact
+
+This framework supports:
+
+- Early Alzheimer’s detection  
+- Fair and equitable AI systems  
+- Transparent diagnostic reasoning  
+- Scalable MRI screening  
+
+---
+
+## Future Work
+
+- Multi-modal AI (MRI + PET + genetics)  
+- Federated learning for privacy  
+- Advanced GAN architectures  
+- Longitudinal disease progression modeling  
+- Real-world clinical validation  
 
 ---
 
